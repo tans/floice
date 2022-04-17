@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floice - flow voice, the voices make me productive & creative </title>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+            background-color: black;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .player {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 320px;
+            height: 170px;
+            background-image: url(devaslife-code-sounds.png);
+            border-radius: 4px;
+            background-size: cover;
+        }
+
+        audio {
+            width: 120px;
+            height: 25px;
+        }
+
+        audio::-webkit-media-controls-panel {
+            -webkit-justify-content: center;
+            height: 25px;
+        }
+
+        /* Removes the timeline */
+
+        audio::-webkit-media-controls-timeline {
+            display: none !important;
+
+        }
+
+        /* Removes the time stamp */
+        audio::-webkit-media-controls-current-time-display {
+            display: none;
+        }
+
+        audio::-webkit-media-controls-time-remaining-display {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="color: gray;padding: 30px 0;">Floice - flow voice, productive & creative </div>
+    <div class="player">
+        <audio id="player" controls autoplay loop>
+            <source src="devaslife-code-sounds.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+    <div style="padding:20px;color: white; font-weight:bolder">Press SPACE Control</div>
+    <a href="https://youtu.be/GznmPACXBlY" style="color:aliceblue; text-decoration: underline;">youtube source</a>
+    <script>
+        let player = document.getElementById('player');
+        document.body.addEventListener('keypress', function (ev) {
+            if (ev.code != 'Space') {
+                return
+            }
+            player.paused ? player.play() : player.pause();
+        })
+    </script>
+</body>
+
+</html>
