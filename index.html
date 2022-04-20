@@ -78,8 +78,9 @@
 </head>
 
 <body>
-    <div style="color: gray;padding: 30px 0;">
+    <div id="cal-heatmap"></div>
 
+    <div style="color: gray;padding: 30px 0;">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white"
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-headphones">
             <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
@@ -107,10 +108,8 @@
             style="margin:10px;color:gray;font-size: 12px; text-decoration: underline;">twitter</a>
     </div>
     <script>
-        let player = document.getElementById('player');
-
+        var player = document.getElementById('player');
         function togglePlay() {
-            console.log('hi')
             player.paused ? player.play() : player.pause();
         }
         document.body.addEventListener('keypress', function (ev) {
@@ -120,7 +119,34 @@
             togglePlay()
         })
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js"></script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cal-heatmap@3.6.2/cal-heatmap.css">
+    <script type="text/javascript">
+        var cal = new CalHeatMap();
+        localforage.getItem('hdata', function (err, hdata) {
+            console.log(hdata);
+            if (!hdata) {
+                hdata = {}
+            }
+            cal.init({
+                domain: "day",
+                start: dayjs().add(-9, 'days').toDate(),
+                range: 10,
+                data: hdata
+            });
+            setInterval(() => {
+                if (player.paused) {
+                    return
+                }
+                hdata[Math.floor(new Date().getTime() / 1000)] = 1;
+                localforage.setItem('hdata', hdata);
+            }, 1000 * 60);
+        });
+    </script>
 </body>
 
 </html>
